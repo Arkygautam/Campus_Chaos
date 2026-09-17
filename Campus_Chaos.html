@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Campus Chaos</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#09090b;color:#eee;font-family:Arial,sans-serif}
+.wrap{max-width:900px;margin:auto;padding:45px 22px}small{letter-spacing:3px;color:#888}
+h1{font-size:58px;line-height:.95;margin:12px 0}p{color:#aaa;line-height:1.55}
+.grid{display:grid;grid-template-columns:1.4fr .8fr;gap:18px}.card{background:#151518;border:1px solid #303036;border-radius:22px;padding:24px}
+.event{font-size:25px;font-weight:bold}.stat{margin:15px 0}.bar{height:8px;background:#29292d;border-radius:8px;overflow:hidden}.fill{height:100%;background:#eee;width:50%;border-radius:8px;transition:.3s}
+button{padding:13px 16px;margin:10px 6px 0 0;border-radius:12px;border:1px solid #555;background:#eee;color:#111;font-weight:bold;cursor:pointer}
+button:hover{opacity:.85}#log{height:170px;overflow:auto;color:#999;font-size:13px;line-height:1.7;border-top:1px solid #333;margin-top:16px;padding-top:10px}
+@media(max-width:700px){.grid{grid-template-columns:1fr}h1{font-size:45px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<small>AI-ASSISTED EXPERIMENT · PRODUCT × GAME × STORY</small>
+<h1>AI Campus<br>Chaos</h1>
+<p>A tiny decision game about surviving one day of MBA life. Every choice changes your <b>Grades, Sleep, Network and Sanity</b>.</p>
+
+<div class="grid">
+<div class="card">
+<div id="day">DAY 1 / 5</div>
+<h2 id="event">Loading...</h2>
+<p id="desc">Loading your first campus crisis...</p>
+<div id="choices"></div>
+</div>
+
+<div class="card">
+<small>PLAYER STATE</small>
+<div class="stat">Grades: <b id="g">50</b><div class="bar"><div class="fill" id="gb"></div></div></div>
+<div class="stat">Sleep: <b id="s">50</b><div class="bar"><div class="fill" id="sb"></div></div></div>
+<div class="stat">Network: <b id="n">50</b><div class="bar"><div class="fill" id="nb"></div></div></div>
+<div class="stat">Sanity: <b id="m">50</b><div class="bar"><div class="fill" id="mb"></div></div></div>
+<small>DECISION LOG</small>
+<div id="log"></div>
+</div>
+</div>
+</div>
+
+<script>
+"use strict";
+
+const events = [
+ {title:"The 8 AM class begins.",desc:"You slept 4 hours. Your body says no.",choices:[
+  ["Attend class",{g:8,s:-10,m:-2}],
+  ["Sleep",{g:-7,s:15,m:8}],
+  ["Sit in the back",{g:3,s:-4,m:3}]
+ ]},
+ {title:"A case competition drops.",desc:"Deadline: tonight. Your team has already named the WhatsApp group.",choices:[
+  ["Lead it",{g:8,s:-12,n:4,m:-3}],
+  ["Delegate smartly",{g:5,s:-5,n:7,m:5}],
+  ["Ignore it",{g:-5,s:4,n:-6,m:7}]
+ ]},
+ {title:"Your phone has 3% battery.",desc:"Your charger is 14 minutes away. Your next class is 6 minutes away.",choices:[
+  ["Run for charger",{s:-5,n:3,m:-2}],
+  ["Ask a friend",{g:2,n:9,m:4}],
+  ["Accept fate",{s:5,n:-5,m:8}]
+ ]},
+ {title:"Placement talk at 7 PM.",desc:"Everyone is networking. You have exactly one sentence prepared.",choices:[
+  ["Introduce yourself",{s:-4,n:12,m:-4}],
+  ["Ask a question",{g:3,s:-3,n:8,m:2}],
+  ["Leave early",{s:5,n:-4,m:6}]
+ ]},
+ {title:"Final boss: presentation.",desc:"The projector refuses to cooperate. 47 people are looking at you.",choices:[
+  ["Debug live",{g:9,s:-6,n:4,m:-7}],
+  ["Use backup PDF",{g:6,s:-2,n:2,m:2}],
+  ["Blame technology",{g:-4,s:4,n:-3,m:9}]
+ ]}
+];
+
+let currentDay=0;
+let state={g:50,s:50,n:50,m:50};
+
+const el={
+ day:document.getElementById("day"),
+ event:document.getElementById("event"),
+ desc:document.getElementById("desc"),
+ choices:document.getElementById("choices"),
+ log:document.getElementById("log"),
+ g:document.getElementById("g"),s:document.getElementById("s"),n:document.getElementById("n"),m:document.getElementById("m"),
+ gb:document.getElementById("gb"),sb:document.getElementById("sb"),nb:document.getElementById("nb"),mb:document.getElementById("mb")
+};
+
+function clamp(value){return Math.max(0,Math.min(100,value));}
+
+function updateStats(){
+ ["g","s","n","m"].forEach(key=>{
+  state[key]=clamp(state[key]);
+  el[key].textContent=state[key];
+  el[key+"b"].style.width=state[key]+"%";
+ });
+}
+
+function render(){
+ updateStats();
+ if(currentDay>=events.length){finish();return;}
+ const item=events[currentDay];
+ el.day.textContent="DAY "+(currentDay+1)+" / 5";
+ el.event.textContent=item.title;
+ el.desc.textContent=item.desc;
+ el.choices.innerHTML="";
+ item.choices.forEach(choice=>{
+  const button=document.createElement("button");
+  button.textContent=choice[0];
+  button.addEventListener("click",()=>choose(choice[0],choice[1]));
+  el.choices.appendChild(button);
+ });
+}
+
+function choose(label,delta){
+ Object.keys(delta).forEach(key=>{state[key]+=delta[key];});
+ const entry=document.createElement("div");
+ entry.textContent="Day "+(currentDay+1)+": "+label;
+ el.log.prepend(entry);
+ currentDay++;
+ render();
+}
+
+function finish(){
+ updateStats();
+ const score=Math.round((state.g+state.s+state.n+state.m)/4);
+ el.day.textContent="RUN COMPLETE";
+ el.event.textContent="Chaos Score: "+score+"/100";
+ el.desc.textContent=score>75
+  ?"Legendary. You survived with suspicious efficiency."
+  :score>55
+  ?"You survived. That counts."
+  :"The semester survived you.";
+ el.choices.innerHTML="";
+ const restart=document.createElement("button");
+ restart.textContent="Run Again";
+ restart.addEventListener("click",()=>location.reload());
+ el.choices.appendChild(restart);
+}
+
+render();
+</script>
+</body>
+</html>
