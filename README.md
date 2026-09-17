@@ -1,22 +1,22 @@
-# 🎓 AI Campus Chaos
+# 🎓 Campus Chaos
 
 ### An AI-assisted interactive game about surviving MBA life.
 
-AI Campus Chaos is a fun, browser-based decision game where everyday MBA situations become a series of difficult — and sometimes ridiculous — choices.
+Campus Chaos is a fun, browser-based decision game where everyday MBA situations become a series of difficult — and sometimes ridiculous — choices.
 
-Every decision affects four aspects of your campus life:
+Every decision affects four aspects of campus life:
 
 📚 Grades · 😴 Sleep · 🤝 Network · 🧠 Sanity
 
 Your goal?
 
-Survive the semester without completely losing it.
+Survive campus life without completely losing it.
 
 ---
 
 ## 🎮 Play the Game
 
-👉 [Play AI Campus Chaos](https://YOUR-USERNAME.github.io/YOUR-REPOSITORY/)
+👉 [Play Campus Chaos](https://arkygautam.github.io/Campus_Chaos/Campus_Chaos.html)
 
 ---
 
@@ -24,7 +24,7 @@ Survive the semester without completely losing it.
 
 The prompt was simple:
 
-> Use an AI tool to create something fun, unique and interesting.
+> Use any AI tool to create something fun, unique and interesting.
 
 Instead of creating a conventional AI-generated image, poem or song, I wanted to build something interactive.
 
@@ -54,8 +54,6 @@ Do you:
 - Sleep?
 - Sit in the back?
 
----
-
 ### 2. 📊 The Case Competition
 
 A case competition suddenly appears with a deadline tonight.
@@ -66,8 +64,6 @@ Do you:
 - Delegate smartly?
 - Pretend you never saw it?
 
----
-
 ### 3. 🔋 3% Battery
 
 Your phone is dying and your charger is far away.
@@ -77,8 +73,6 @@ Do you:
 - Run for the charger?
 - Ask a friend?
 - Accept your fate?
-
----
 
 ### 4. 🤝 Placement Talk
 
@@ -91,8 +85,6 @@ Do you:
 - Introduce yourself?
 - Ask a thoughtful question?
 - Leave early?
-
----
 
 ### 5. 🎤 Final Presentation
 
