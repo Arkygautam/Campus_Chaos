@@ -18,8 +18,6 @@ Survive the semester without completely losing it.
 
 👉 [Play AI Campus Chaos](https://YOUR-USERNAME.github.io/YOUR-REPOSITORY/)
 
-> Replace the URL above with your GitHub Pages URL after deployment.
-
 ---
 
 ## 💡 The Idea
